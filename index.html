@@ -7,6 +7,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/style.css">
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/nerdamer.core.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/Algebra.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/Calculus.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/Solve.js"></script>
 </head>
 <body id="home">
 	<div class="container">
@@ -26,12 +30,14 @@
 		<li id="homepage"><a href="index.html">Home</a></li>
 		<li id="page2"><a href="2.html">Numerical Diffrentiation</a></li>
 		<li id="page2"><a href="3.html">Numerical Integration</a></li>
+		<li id="page2"><a href="4.html">Euler Method</a></li>
 
 		</ul>
 			
 			
 		</aside><!--SIDEBAR-->
 
+'
 		<article class="main-content col-sm-8">
 
 	   <form id="frm1">
@@ -45,6 +51,34 @@
   </div>
    <input type="button" onclick="myFunction()" value="Submit">
     </form> 
+    <script>
+    function myFunction(){
+		nerdamer.setVar('x', '0');
+		nerdamer.setVar('y', '1');
+		var n = 10;
+		var eq1 = "x+y";
+		var slope=0;
+		var x=0;
+		var y=0;
+		var x1 = "";
+		var y1 ="";
+		for(var i=0;i<n;i++)
+		{
+			slope = nerdamer(eq1);
+			x = nerdamer('x');
+			y = nerdamer('y');
+			y = y + 0.1*slope;
+			y1 = y.toString();
+			x = x+0.1;
+			x1 = x.toString();
+			alert(y1)
+			nerdamer.setVar('x', x1);
+			nerdamer.setVar('y', y1);			
+		}
+		alert(y1);
+		
+    }
+    </script>
 
 		</article><!--MAIN CONTENT-->
 			
