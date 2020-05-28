@@ -152,13 +152,15 @@
     res = res + "\n";
     res = res + "  ";
     var c =2;
+    var a1 = 0;
     while(arr.length != 0)
     {
         for(var i=0;i<arr.length-1;i++)
         {
             a = arr[i+1] - arr[i];
-            arr1.push(a);
-            res = res + a + "   ";
+            a1 = a.toFixed(4);
+            arr1.push(a1);
+            res = res + a1 + "   ";
             
         }
         res = res + "\n";
