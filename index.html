@@ -53,30 +53,23 @@
     </form> 
     <script>
     function myFunction(){
-		nerdamer.setVar('x', '0');
-		nerdamer.setVar('y', '1');
 		var n = 10;
 		var eq1 = "x+y";
 		var slope=0;
 		var x=0;
-		var y=0;
-		var x1 = "";
-		var y1 ="";
+		var y=1;
 		for(var i=0;i<n;i++)
 		{
-			slope = nerdamer(eq1);
-			x = nerdamer('x');
-			y = nerdamer('y');
+			var x1 = nerdamer(eq1).sub('x', x.toString());
+			var x2 = x1.toString();
+			var x3 = nerdamer(x1).sub('y', y.toString());
+			var x4 = x3.toString();
+			var y4 = nerdamer(x4);	
+			slope = y4.evaluate();	
 			y = y + 0.1*slope;
-			y1 = y.toString();
-			x = x+0.1;
-			x1 = x.toString();
-			alert(y1)
-			nerdamer.setVar('x', x1);
-			nerdamer.setVar('y', y1);			
+			x = x+0.1;		
 		}
-		alert(y1);
-		
+		alert(y);
     }
     </script>
 
