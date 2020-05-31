@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Home</title>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/nerdamer.core.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/Algebra.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/Calculus.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/Solve.js"></script>
+
+</head>
+<body id="home">
+	<div class="container">
+		<header class="row">
+			
+			<h1 class="text-center">Runge-Kutta Method</h1>
+
+		</header>
+
+	<section class="content">
+
+		<aside class="col-sm-4">
+		
+
+	
+		<ul class="nav">
+		<li id="homepage"><a href="index.html">Home</a></li>
+		<li id="page2"><a href="2.html">Numerical Diffrentiation</a></li>
+		<li id="page2"><a href="3.html">Numerical Integration</a></li>
+		<li id="page2"><a href="4.html">Euler Method</a></li>
+        <li id="page2"><a href="6.html">Range-Kutta Method</a></li>
+
+		</ul>
+			
+			
+		</aside><!--SIDEBAR-->
+
+'
+		<article class="main-content col-sm-8">
+
+	   <form id="frm1">
+	    <div class="form-group">
+    dy/dx:<input type="text">
+  </div>
+ <div class="form-group">
+    h(step size):<input type="text" maxlength="4" size="4">
+  </div>
+
+     <div class="form-group">
+    x(start):<input type="text" maxlength="4" size="4">
+  </div>
+     <div class="form-group">
+    x(end):<input type="text" maxlength="4" size="4">
+  </div>
+     <div class="form-group">
+    y(start):<input type="text" maxlength="4" size="4">
+  </div>
+  <div>
+ <input type="radio" id="add" name="ari" onclick="order4()">
+<label for="male">1.Range-Kutta 4th Order </label><br>
+
+</div>
+    </form> 
+<pre id="demo4"></pre>
+    <script>
+
+    
+    function order4(){
+    	var x2 = document.getElementById("frm1");
+		//var n = parseInt(x2.elements[2].value);
+		var h =parseFloat(x2.elements[1].value);
+		var eq1 = x2.elements[0].value;
+		var x0=parseFloat(x2.elements[2].value);
+		var y0=parseFloat(x2.elements[4].value);
+        var xn=parseFloat(x2.elements[3].value);
+		var out ="";
+		var k1=0;
+		var k2=0;
+		var k3=0;
+        var k4=0;n
+        var k=0;
+        var x= x0;
+        var y= y0;
+        var n=(xn-x0)/h;
+    function F(F_x,F_y)
+    {
+            var x1 = nerdamer(eq1).sub('x', F_x.toString());
+			var x2 = x1.toString();
+			var x3 = nerdamer(x1).sub('y', F_y.toString());
+			var x4 = x3.toString();
+			var y4 = nerdamer(x4);	
+			value = y4.evaluate();	
+            return value;
+    
+    }        
+		for(var i=0;i<n;i++)
+		{
+			
+            k1=h*F(x,y);
+			k2=h*F(x+h/2.0,y+k1/2.0);
+			k3=h*F(x+h/2.0,y+k2/2.0);
+			k4=h*F(x+h,y+k3); k=(k1+(k2+k3)*2.0+k4)/6.0;
+			
+            out= out + "x" +i + "=" + x + " , y"+i +"=" +y + "\n" + "k1 = " + k1 +"\n" +"k2 = " +k2 +"\n" +"k3 = "+k3+"\n" + "k4 = " +k4 +"\n" + "k = "+k +"\n" +"y"+(i+1) + "= " +  (y+k) + "\n \n" ;
+            x = x+h;	
+            y=y+k;
+		}
+        out=out +"\n" +"Hence " + "y("+xn +") = " + y;
+		document.getElementById("demo4").textContent = out;
+        
+		
+    }
+    
+
+ 
+    </script>
+
+		</article><!--MAIN CONTENT-->
+			
+
+
+			
+			
+
+
+
+
+
+
+
+		
+
+
+	</section><!--CONTENT-->
+	</div><!--Container-->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="js/myscript.js"></script>
+</body>
+</html>
