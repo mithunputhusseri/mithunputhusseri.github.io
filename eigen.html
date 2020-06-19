@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Variables For Strings
+
+	</title>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+</head>
+<body id="2">
+	<div class="container">
+		<header class="row">
+
+		
+
+		<h1 class="text-center">Eigen Value Using Power Method</h1>
+
+		</header>
+
+	<section class="content">
+
+		<aside class="col-xs-4">
+
+	<ul>
+		<li id="homepage"><a href="index.html">home</a></li>
+		<li id="page2"><a href="2.html">Numerical differentiation</a></li>
+		<li id="page2"><a href="3.html">Numerical Integration</a></li>
+		<li id="page2"><a href="4.html">Euler Method</a></li>
+		<li id="page2"><a href="6.html">Range-Kutta Method</a></li>
+		<li id="page2"><a href="gauss_methods.html">Gauss & Gauss-Jordan</a></li>
+		<li id="page2"><a href="seidal_jacobi.html">Gauss Seidel&Jacobi Methods</a></li>
+		<li id="page2"><a href="eigen.html">Eigen Value:Power Method</a></li>
+
+		</ul>
+			
+			
+		</aside><!--SIDEBAR-->
+
+
+		<article class="main-content col-xs-8">
+
+
+   <form id="frm1">
+  <div class="form-group">
+    Matrix:<input type="text" class="form-control" id="xvalue">
+  </div>
+    <div class="form-group">
+    Number of Iterations:<input type="text" class="form-control" id="yvalue">
+  </div>
+    </form> 
+<div>
+<input type="radio" id="add" name="ari" onclick="db1()">
+<label for="male">Find Eigen Dominant Eigen value:</label><br>
+</div>
+    </form> 
+    <h2>Output:</h2>
+    <pre id=demo1></pre>
+    <script>
+    function mul(arr,arr1,n)
+    {
+    	var res = [];
+    	var a=0;
+		for (var i = 0; i < n; i++) 
+		{ 
+			a =0;
+			for(var j=0;j<n;j++)
+			{
+				a =a+arr[i][j]*arr1[j];
+			}
+			res.push(a);
+		} 
+		return res;
+    }
+    function maximum(x,n)
+    {
+    	var m = x[0];
+    	for(var i=0;i<n;i++)
+    	{
+    		if(x[i]>m)
+    		{
+    			m = x[i];
+    		}
+    	}
+    	return m;
+    }
+	function db1(){
+		var x = document.getElementById("frm1");
+		var a = "";
+		a = x.elements[0].value;
+		var n1 = x.elements[1].value;
+		var n2 = parseFloat(n1);
+		var a1 = a.split(" ");
+		var n = Math.sqrt(a1.length);
+		var mat  = [];
+		for (var i = 0; i < n; i++) {
+        mat.push([0]);
+        for (var j = 0; j < n; j++) {
+            mat[i][j] = parseFloat(a1[i*n + j]);
+        }
+        }
+        var x = [];
+        for(var i=0;i<n;i++)
+        {
+        	x.push(parseFloat(1));
+        }
+        var max1 =0;
+        var out ="";
+        out = out+ "The solution is:" + "\n";
+        out = out + x + "\n";
+        for(var i=0;i<n2;i++)
+        {
+        	out = out + "Iteration" + " " + i+"\n";
+        	max1 = maximum(x,n);
+        	for(var j=0;j<n;j++)
+        	{
+        		x[j] = x[j]/max1;
+        	}
+        	x = mul(mat,x,n);
+        	out = out + x + "\n";
+        }
+        document.getElementById("demo1").innerHTML = out; 
+	}
+    </script>
+	
+
+		</article><!--MAIN CONTENT-->
+</section><!--CONTENT-->
+	</div><!--Container-->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="js/myscript.js"></script>
+</body>
+</html>
