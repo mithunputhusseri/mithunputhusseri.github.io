@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Variables For Strings
+
+	</title>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+</head>
+<body id="2">
+	<div class="container">
+		<header class="row">
+
+		
+
+		<h1 class="text-center">Numerical differentation</h1>
+
+		</header>
+
+	<section class="content">
+
+		<aside class="col-xs-4">
+
+	<ul>
+		<li id="homepage"><a href="index.html">home</a></li>
+		<li id="page2"><a href="2.html">Numerical differentiation</a></li>
+		<li id="page2"><a href="3.html">Numerical Integration</a></li>
+		<li id="page2"><a href="4.html">Euler Method</a></li>
+		<li id="page2"><a href="6.html">Range-Kutta Method</a></li>
+		<li id="page2"><a href="gauss_methods.html">Gauss & Gauss-Jordan</a></li>
+
+		</ul>
+			
+			
+		</aside><!--SIDEBAR-->
+
+
+		<article class="main-content col-xs-8">
+
+
+   <form id="frm1">
+  <div class="form-group">
+    Matrix:<input type="text" class="form-control" id="xvalue">
+  </div>
+  <div class="form-group">
+    Vector:<input type="text" class="form-control" id="yvalue">
+  </div>
+    </form> 
+<div>
+<input type="radio" id="add" name="ari" onclick="df1()">
+<label for="male">Gauss elimination method</label><br>
+<input type="radio" id="sub" name="ari" onclick="db1()">
+<label for="female">Gauss Jordan method</label><br>
+</div>
+    </form> 
+    <h2>Output:</h2>
+    <pre id=demo1></pre>
+    <script>
+    var abs = Math.abs;
+var out = "";   
+function array_fill(i, n, v) {
+    var a = [];
+    for (; i < n; i++) {
+        a.push(v);
+    }
+    return a;
+}
+    function gauss(A, x) {
+
+    var i, k, j;
+
+    // Just make a single matrix
+    for (i=0; i < A.length; i++) { 
+        A[i].push(x[i]);
+    }
+    var n = A.length;
+   
+    for (i=0; i < n; i++) { 
+        for(var i1=0;i1<x.length;i1++)
+        {
+            for(var j1=0;j1<x.length+1;j1++)
+            {
+                out = out + " "+A[i1][j1];
+            }
+            out = out+"\n";
+        }
+        // Search for maximum in this column
+        var maxEl = abs(A[i][i]),
+            maxRow = i;
+        for (k=i+1; k < n; k++) { 
+            if (abs(A[k][i]) > maxEl) {
+                maxEl = abs(A[k][i]);
+                maxRow = k;
+            }
+        }
+
+
+        // Swap maximum row with current row (column by column)
+        for (k=i; k < n+1; k++) { 
+            var tmp = A[maxRow][k];
+            A[maxRow][k] = A[i][k];
+            A[i][k] = tmp;
+        }
+
+        // Make all rows below this one 0 in current column
+        for (k=i+1; k < n; k++) { 
+            var c = -A[k][i]/A[i][i];
+            for (j=i; j < n+1; j++) { 
+                if (i===j) {
+                    A[k][j] = 0;
+                } else {
+                    A[k][j] += c * A[i][j];
+                }
+            }
+        }
+        out = out + "\n";
+    }
+
+    // Solve equation Ax=b for an upper triangular matrix A
+    x = array_fill(0, n, 0);
+    for (i=n-1; i > -1; i--) { 
+        x[i] = A[i][n]/A[i][i];
+        for (k=i-1; k > -1; k--) { 
+            A[k][n] -= A[k][i] * x[i];
+        }
+    }
+
+    return x;
+}
+
+function gauss_jordan(a,x){
+    var i, k, j,c,pro=0,m=0;
+
+    // Just make a single matrix
+    for (i=0; i < a.length; i++) { 
+        a[i].push(x[i]);
+    }
+    var n = x.length;
+      
+    // Performing elementary operations 
+    for (i = 0; i < n; i++) 
+    { 
+        for(var i1=0;i1<x.length;i1++)
+        {
+            for(var j1=0;j1<x.length+1;j1++)
+            {
+                out = out + " "+a[i1][j1];
+            }
+            out = out+"\n";
+        }
+        out = out + "\n";
+        if (a[i][i] == 0)  
+        { 
+            c = 1; 
+            while ((i + c) < n && a[i + c][i] == 0)  
+                c++;
+            if ((i + c) == n)  
+            { 
+                break; 
+            } 
+            for (j = i, k = 0; k <= n; k++)  
+            { 
+                var temp =a[j][k]; 
+                a[j][k] = a[j+c][k]; 
+                a[j+c][k] = temp; 
+            } 
+        } 
+  
+        for (j = 0; j < n; j++)  
+        {
+            if (i != j)  
+            {
+                var p = a[j][i] / a[i][i]; 
+  
+                for (k = 0; k <= n; k++)                  
+                    a[j][k] = a[j][k] - (a[i][k]) * p;              
+            } 
+        } 
+    } 
+    return a;
+}
+	function df1()
+	{
+		out = "";
+		out = out+"GAUSS METHOD" + "\n";
+		var x = document.getElementById("frm1");
+		var a = "";
+		var b = "";
+		a = x.elements[0].value;
+		b = x.elements[1].value;
+		var a1 = a.split(" ");
+		var b1 = b.split(" ");
+		var mat  = [];
+		var arr = [];
+		var n = b1.length;
+		for (var i = 0; i < n; i++) {
+        mat.push([0]);
+        for (var j = 0; j < n; j++) {
+            mat[i][j] = parseFloat(a1[i*n + j]);
+        }
+        }
+        
+        for(var i=0;i<n;i++)
+        {
+        	arr.push(parseFloat(b1[i]));
+        }
+        var y =  gauss(mat,arr);
+        out = out + "\n";
+        out = out + "The solution is:" + "\n";
+        for(var i=0;i<n;i++)
+        {
+           out = out+y[i]+" "; 
+        }
+        document.getElementById("demo1").innerHTML = out;
+		
+		
+	}
+	function db1(){
+	    		out = "";
+		out = out+"GAUSS JORDAN METHOD" + "\n";
+		var x = document.getElementById("frm1");
+		var a = "";
+		var b = "";
+		a = x.elements[0].value;
+		b = x.elements[1].value;
+		var a1 = a.split(" ");
+		var b1 = b.split(" ");
+		var mat  = [];
+		var arr = [];
+		var n = b1.length;
+		for (var i = 0; i < n; i++) {
+        mat.push([0]);
+        for (var j = 0; j < n; j++) {
+            mat[i][j] = parseFloat(a1[i*n + j]);
+        }
+        }
+        
+        for(var i=0;i<n;i++)
+        {
+        	arr.push(parseFloat(b1[i]));
+        }
+        var y =  gauss_jordan(mat,arr);
+        out = out + "\n";
+        for(var i=0;i<n;i++)
+        {
+           for(var j=0;j<n+1;j++)
+           {
+               out = out + y[i][j] + " ";
+           }
+           out = out + "\n";
+        }
+        out = out + "The solution is:" + "\n";
+        for(var i=0;i<n;i++){
+            out = out +y[i][n] / y[i][i] +" "
+        }
+        document.getElementById("demo1").innerHTML = out; 
+	}
+    </script>
+	
+
+		</article><!--MAIN CONTENT-->
+</section><!--CONTENT-->
+	</div><!--Container-->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="js/myscript.js"></script>
+</body>
+</html>
