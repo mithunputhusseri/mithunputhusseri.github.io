@@ -12,7 +12,7 @@
 	<div class="container">
 		<header class="row">
 			
-			<h1 class="text-center">Legrange Interpolation</h1>
+			<h1 class="text-center">Relaxation Method</h1>
 
 		</header>
 
@@ -45,20 +45,18 @@
 		<article class="main-content col-sm-8">
             <form id="frm1">
   <div class="form-group">
+  Maximum 5 pairs<br>
     X:<input type="text" class="form-control" id="xvalue">
   </div>
   <div class="form-group">
     Y:<input type="text" class="form-control" id="yvalue">
   </div>
-    <div class="form-group">
-    Value:<input type="text" class="form-control" id="value">
-  </div>
   <div>
  <input type="radio" id="add" name="ari" onclick="df1()">
-<label for="male">Lagrange Interpolation</label><br>
+<label for="male">Spline Interpolation</label><br>
 </div>
     </form> 
-   <h2 id="demo1"></h2> 
+   <pre id="demo1"></pre> 
     <script>
     function df1(){
     	var x = document.getElementById("frm1");
@@ -76,21 +74,89 @@
         arry.push(parseFloat(y1[i]));
         arrx.push(parseFloat(x1[i]));
     }
-    var h = arrx[1] - arrx[0];
-    var n = arrx.length;
-   var product = 1;
-   var sum = 0;
-    for (var i = 0; i < n; i++) {
-        for (var j = 0; j < n; j++) {
-            if (j != i) {
-                product *= (a - arrx[j]) / (arrx[i] - arrx[j]);
-            }
-        }
-        sum += product * arry[i];
-
-        product = 1; 
+    var n = arry.length;
+    
+    
+    var n,i;
+	var a,b,c,d,e,f,g,h,j,det;
+	
+	m = [];
+	B = [];
+	for(var i=0;i<n;i++)
+	{
+	    m.push(parseFloat(0));
+	    B.push(parseFloat(0));
+	}
+	var I = [];
+	for (var i = 0; i < 3; i++) {
+    I.push([0]);
+    for (var j = 0; j < 3; j++) {
+        I[i][j] = parseFloat(0);
     }
-    document.getElementById("demo1").textContent = sum;      
+    }
+
+	h = arrx[1] - arrx[0];
+	if(n==3)
+	{
+		i=1;
+		h = arrx[1] - arrx[0];
+		m[1]=6/(h*h)*(arry[i-1]-2*arry[i]+arry[i+1]);
+		m[1]/=4;
+	}
+	
+	else if(n==4)
+	{
+		a=d=4;
+		b=c=1;
+		h = arrx[1] - arrx[0];
+		det=a*d-b*c;
+		I[0][0]=d;
+		I[0][1]=-b;
+		I[1][0]=-c;
+		I[1][1]=a;
+		
+		for(i=1;i<=n-2;i++)
+		B[i-1]=6/(h*h)*(arry[i-1]-2*arry[i]+arry[i+1]);
+		
+		for(i=0;i<n-2;i++)
+		{
+			m[i+1]=I[i][0]*B[0]+ I[i][1]*B[1];
+			m[i+1]/=det;
+		}
+		
+	}
+	else
+	{
+		c=g=0;
+		a=e=j=4;
+		b=d=h=f=1;
+		h = arrx[1] - arrx[0];
+		det = a*(e*j-h*f)-b*(d*j-f*g)+c*(d*h-g*e);
+		I[0][0] = e*j - f*h; I[0][1] = -b*j + c*h; I[0][2] = b*f - e*c;
+		I[1][0] = -d*j + f*g; I[1][1] = a*j - c*g; I[1][2] = -a*f + d*c;
+		I[2][0] = d*h - e*g; I[2][1] = -a*h + b*g; I[2][2] = a*e - d*b;
+		
+		for(i=1;i<=n-2;i++)
+		B[i-1]=6/(h*h)*(arry[i-1]-2*arry[i]+arry[i+1]);
+		
+		for(i=0;i<n-2;i++)
+		{
+			m[i+1]=I[i][0]*B[0]+ I[i][1]*B[1]+ I[i][2]*B[2];
+			m[i+1]/=det;
+		}
+	}
+	var out = "";
+	for(i=1;i<n;i++)
+	{
+		a=(m[i]-m[i-1])/(6*h);
+		b=(3*arrx[i]*m[i-1]-3*arrx[i-1]*m[i])/(6*h);
+		c=(3*Math.pow(arrx[i-1],2)*m[i]-3*Math.pow(arrx[i],2)*m[i-1])/(6*h) + (arry[i]-arry[i-1]+Math.pow(h,2)/6*(m[i-1]-m[i]))/h;
+		d=(Math.pow(arrx[i],3)*m[i-1]-Math.pow(arrx[i-1],3)*m[i])/(6*h) + (arrx[i]*arry[i-1]-arrx[i-1]*arry[i]+Math.pow(h,2)/6*(m[i]*arrx[i-1]-m[i-1]*arrx[i]))/h;
+		out = out + a+"x^3 +"+b+"x^2 +"+c+"x +"+d+"\n";
+	}	
+	
+
+    document.getElementById("demo1").textContent = out;      
     }
 
     </script>
