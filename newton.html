@@ -52,92 +52,40 @@
   <div class="form-group">
     Y:<input type="text" class="form-control" id="yvalue">
   </div>
+    <div class="form-group">
+    Value:<input type="text" class="form-control" id="yvalue">
+  </div>
    <input type="button" onclick="myFunction()" value="Submit">
     </form> 
     <pre id="demo4"></pre>
-    <h2>Enter the values</h2>
-     <form id="frm2">
-  <div class="form-group">
-    <input type="text" class="form-control" id="value">
-  </div>
-  <div class="form-group">
-    h:<input type="text" maxlength="4" size="4">
-  </div>
-  <div>
- <input type="radio" id="add" name="ari" onclick="df1()">
-<label for="male">1st Derivative Forward Difference</label><br>
-<input type="radio" id="sub" name="ari" onclick="db1()">
-<label for="female">1st Derivative Backward Difference</label><br>
-<input type="radio" id="mul" name="ari" onclick="df2()">
-<label for="other">2nd Derivative Forward Difference</label><br>
-<input type="radio" id="div" name="ari" onclick="db2()">
-<label for="other">2nd Derivative Backward Difference</label><br>
-</div>
-    </form> 
-    <h2>Output:</h2>
-    <h2 id=demo1></h2>
-    <script>
-    function df1(){
-       var x = document.getElementById("frm2"); 
-       var xvalue = "";
-       xvalue = x.elements[0].value;
-       var h = x.elements[1].value;
-       var x1 = xvalue.split(" ");
-       var b= [1,-1/2,1/3,-1/4,1/5,-1/6,1/7,-1/8];
-       var out = 0;
-       for(var i=0;i<x1.length;i++)
-       {
-           out = out + b[i]*parseFloat(x1[i]);
-       } 
-       out = out/parseFloat(h);
-       document.getElementById("demo1").textContent = out;
+ <script>
+    function proterm(i,value,x)
+    {
+    var pro = 1; 
+    for (var j = 0; j < i; j++) { 
+        pro = pro * (value - x[j]); 
+    } 
+    return pro; 
     }
-    function db1(){
-       var x = document.getElementById("frm2"); 
-       var xvalue = "";
-       xvalue = x.elements[0].value;
-       var h = x.elements[1].value;
-       var x1 = xvalue.split(" ");
-       var b= [1,1/2,1/3,1/4,1/5,1/6,1/7,1/8];
-       var out = 0;
-       for(var i=0;i<x1.length;i++)
-       {
-           out = out + b[i]*parseFloat(x1[i]);
-       } 
-       out = out/parseFloat(h);
-       document.getElementById("demo1").textContent = out;
+    function applyFormula(value,x,y,n)
+    {
+    var sum = y[0][0]; 
+  
+    for (var i = 1; i < n; i++) { 
+    sum = sum + (proterm(i, value, x) * y[0][i]); 
+    } 
+    return sum; 
     }
-    function df2(){
-       var x = document.getElementById("frm2"); 
-       var xvalue = "";
-       xvalue = x.elements[0].value;
-       var h = x.elements[1].value;
-       var x1 = xvalue.split(" ");
-       var b= [0,1,-1,11/12,-5/6,137/180];
-       var out = 0;
-       for(var i=1;i<x1.length;i++)
-       {
-           out = out + b[i]*parseFloat(x1[i]);
-       } 
-       out = out/(parseFloat(h));
-       out = out/(parseFloat(h));
-       document.getElementById("demo1").textContent = out;
-    }
-    function db2(){
-       var x = document.getElementById("frm2"); 
-       var xvalue = "";
-       xvalue = x.elements[0].value;
-       var h = x.elements[1].value;
-       var x1 = xvalue.split(" ");
-       var b= [0,1,1,11/12,5/6,137/180];
-       var out = 0;
-       for(var i=1;i<x1.length;i++)
-       {
-           out = out + b[i]*parseFloat(x1[i]);
-       } 
-       out = out/(parseFloat(h));
-       out = out/(parseFloat(h));
-       document.getElementById("demo1").textContent = out;
+    function dividedDiffTable(arrx,y,n)
+    {
+        { 
+    for (var i = 1; i < n; i++) { 
+        for (var j = 0; j < n - i; j++) { 
+            y[j][i] = (y[j][i - 1] - y[j + 1] 
+                         [i - 1]) / (arrx[j] - arrx[i + j]); 
+        } 
+    } 
+} 
     }
     function myFunction(){
     var x = document.getElementById("frm1");
@@ -145,14 +93,20 @@
     var yvalue="";
     xvalue = x.elements[0].value;
     yvalue = x.elements[1].value;
+    v = x.elements[2].value;
+    value = parseFloat(v);
     var x1 = xvalue.split(" ");
     var y1 = yvalue.split(" ");
     
     var res = "";
     var arr = [];
+    var arrx = [];
+    var arry = [];
     for(var i=0;i<y1.length;i++)
     {
         arr.push(parseFloat(y1[i]));
+        arry.push(parseFloat(y1[i]));
+        arrx.push(parseFloat(x1[i]));
         res = res + y1[i] + "   ";
     }
     var arr1 = [];
@@ -161,6 +115,7 @@
     res = res + "  ";
     var c =2;
     var a1 = 0;
+    n = arrx.length;
     while(arr.length != 0)
     {
         for(var i=0;i<arr.length-1;i++)
@@ -181,8 +136,31 @@
         arr = arr1;
         arr1 = [];
     }
+    var y = [];
+    for (var i = 0; i < 10; i++) {
+    y.push([0]);
+    for (var j = 0; j < 10; j++) {
+            y[i][j] = parseFloat(0);
+    }
+    }
+    for(var i=0;i<n;i++)
+    {
+        y[i][0] = arry[i];
+    }
+    dividedDiffTable(arrx, y, n);
+    var out = "";
+    out = out+"The divided difference table is:" + "\n";
+    for (var i = 0; i < n; i++) { 
+        for (var j = 0; j < n - i; j++) { 
+            out = out + y[i][j] + "\t";
+        } 
+       out = out + "\n";
+    } 
+    out = out + "The value for " + value + " is:" + "\n"; 
+    var res1 = applyFormula(value,arrx,y,n);
+    out = out + res1 + "\n";
+    document.getElementById("demo4").textContent = out;
     
-    document.getElementById("demo4").textContent = res;
     }
     
     </script>

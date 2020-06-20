@@ -7,16 +7,12 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/style.css">
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/nerdamer.core.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/Algebra.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/Calculus.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/Solve.js"></script>
 </head>
 <body id="home">
 	<div class="container">
 		<header class="row">
 			
-			<h1 class="text-center">NME</h1>
+			<h1 class="text-center">Legrange Interpolation</h1>
 
 		</header>
 
@@ -43,40 +39,57 @@
 			
 		</aside><!--SIDEBAR-->
 
-'
 		<article class="main-content col-sm-8">
-
-	   <form id="frm1">
+            <form id="frm1">
   <div class="form-group">
-    <label for="email">Email address:</label>
-    <input type="email" class="form-control" id="email">
+    X:<input type="text" class="form-control" id="xvalue">
   </div>
   <div class="form-group">
-    <label for="fname">First name:</label>
-    <input type="text" class="form-control" id="fname">
+    Y:<input type="text" class="form-control" id="yvalue">
   </div>
-   <input type="button" onclick="myFunction()" value="Submit">
+    <div class="form-group">
+    Value:<input type="text" class="form-control" id="value">
+  </div>
+  <div>
+ <input type="radio" id="add" name="ari" onclick="df1()">
+<label for="male">Lagrange Interpolation</label><br>
+</div>
     </form> 
+   <h2 id="demo1"></h2> 
     <script>
-    function myFunction(){
-		var n = 10;
-		var eq1 = "x+y";
-		var slope=0;
-		var x=0;
-		var y=1;
-		for(var i=0;i<n;i++)
-		{
-			var x1 = nerdamer(eq1).sub('x', x.toString());
-			var x2 = x1.toString();
-			var x3 = nerdamer(x1).sub('y', y.toString());
-			var x4 = x3.toString();
-			var y4 = nerdamer(x4);	
-			slope = y4.evaluate();	
-			y = y + 0.1*slope;
-			x = x+0.1;		
-		}
-		alert(y);
+    function df1(){
+    	var x = document.getElementById("frm1");
+    var xvalue="";
+    var yvalue="";
+    xvalue = x.elements[0].value;
+    yvalue = x.elements[1].value;
+    var a1 = x.elements[2].value;
+    var a = parseFloat(a1);
+    var x1 = xvalue.split(" ");
+    var y1 = yvalue.split(" ");
+    arry = [];
+    arrx = [];
+    for(var i=0;i<x1.length;i++){
+        arry.push(parseFloat(y1[i]));
+        arrx.push(parseFloat(x1[i]));
     }
+    var h = arrx[1] - arrx[0];
+    var n = arrx.length;
+   var product = 1;
+   var sum = 0;
+    for (var i = 0; i < n; i++) {
+        for (var j = 0; j < n; j++) {
+            if (j != i) {
+                product *= (a - arrx[j]) / (arrx[i] - arrx[j]);
+            }
+        }
+        sum += product * arry[i];
+
+        product = 1; 
+    }
+    document.getElementById("demo1").textContent = sum;      
+    }
+
     </script>
 
 		</article><!--MAIN CONTENT-->
