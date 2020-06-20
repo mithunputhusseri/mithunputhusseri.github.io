@@ -146,6 +146,14 @@
 		}
 	}
 	var out = "";
+	out = "The M values are:" + "\n";
+	
+	for(i=0;i<n;i++)
+	{
+		out = out + m[i] + "\t";
+	}
+	out = out + "\n";
+	out = out + "The Cubic Equations are:" + "\n";
 	for(i=1;i<n;i++)
 	{
 		a=(m[i]-m[i-1])/(6*h);
